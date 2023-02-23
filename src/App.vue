@@ -1,30 +1,50 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="app" id="top">
+    <div v-if="statusResponse == 200">
+      <navigation-bar></navigation-bar>
+      <router-view> </router-view>
+    </div>
+    <div v-else>
+      <login></login>
+    </div>
+  </div>
 </template>
 
+<script>
+import NavigationBar from "@/components/NavigationBar.vue";
+import { mapState, mapMutations, mapActions } from "vuex";
+import Login from "@/pages/Login.vue";
+
+export default {
+  components: {
+    NavigationBar,
+    Login,
+  },
+  computed: {
+    ...mapState({
+      statusResponse: (state) => state.post.statusResponse,
+    }),
+  },
+};
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-nav {
-  padding: 30px;
+.app {
+  padding: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1400px;
 }
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+@media (max-width: 1336px) {
+  .app {
+    padding: 20px;
+    max-width: 1200px;
+  }
 }
 </style>
